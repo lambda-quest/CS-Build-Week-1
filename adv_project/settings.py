@@ -38,16 +38,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
     'adventure',
     'api',
-    'corsheaders',
+
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
-    'django.contrib.sites',
+    'rest_auth.registration',
+
     'allauth',
     'allauth.account',
-    'rest_auth.registration',
+
+    'corsheaders',
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -90,10 +94,14 @@ WSGI_APPLICATION = 'adv_project.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+	'default': {
+		'ENGINE': 'django.db.backends.postgresql', 
+		'NAME': 'newlambdaquest',    # postgres DB name
+		'USER': 'postgres',              # ^^ owner
+		'PASSWORD': 'postgres',          # ^^'s password
+		'HOST': 'localhost',
+		'PORT': '5432',
+	}
 }
 
 
