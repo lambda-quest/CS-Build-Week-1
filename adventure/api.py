@@ -14,12 +14,14 @@ import json
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
-    print(request.body)
-
     user = request.user
+    print(f'USER: {user}')
     player = user.player
+    print(f'PLAYER: {player}')
     player_id = player.id
     uuid = player.uuid
+
+    # ERROR
     room = player.room()
     players = room.playerNames(player_id)
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
@@ -28,6 +30,8 @@ def initialize(request):
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
+    print(f'Req.Body: {request.body}')
+
     dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
     player = request.user.player

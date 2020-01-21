@@ -36,6 +36,18 @@ class Room(models.Model):
     def playerUUIDs(self, currentPlayerID):
         return [p.uuid for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
 
+    def __str__(self):
+        output = f'\n'
+        output += f'-- START ROOM PRINT --\n'
+        output += f'Title: {self.title}\n'
+        output += f'Desc: {self.description}\n'
+        output += f'n_to: {self.n_to}\n'
+        output += f's_to: {self.s_to}\n'
+        output += f'e_to: {self.e_to}\n'
+        output += f'w_to: {self.w_to}\n'
+        output += f'-- END ROOM PRINT --\n'
+        output += f'\n'
+
 
 class Player(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -51,6 +63,16 @@ class Player(models.Model):
         except Room.DoesNotExist:
             self.initialize()
             return self.room()
+    def __str__(self):
+        output = f'\n'
+        output += f'-- START PLAYER PRINT --\n'
+        output += f'USER: {self.user}\n'
+        output += f'CurrentRoom: {self.currentRoom}\n'
+        output += f'UUID: {self.uuid}\n'
+        output += f'-- END PLAYER PRINT --'
+        output += f'\n'
+
+        return output
 
 @receiver(post_save, sender=User)
 def create_user_player(sender, instance, created, **kwargs):
