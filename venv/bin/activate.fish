@@ -29,7 +29,7 @@ end
 # unset irrelevant variables
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/Users/edgarf/lambda/CS/CS-Build-Week-1/venv"
+set -gx VIRTUAL_ENV "/Users/edgarf/lambda/CS/CS-Labs-Lambda-Quest/CS-Build-Week-1/venv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH
