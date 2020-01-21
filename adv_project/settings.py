@@ -96,7 +96,7 @@ WSGI_APPLICATION = 'adv_project.wsgi.application'
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.postgresql', 
-		'NAME': 'anothertest',    # postgres DB name
+		'NAME': 'lambdaquest',    # postgres DB name
 		'USER': 'postgres',              # ^^ owner
 		'PASSWORD': 'postgres',          # ^^'s password
 		'HOST': 'localhost',

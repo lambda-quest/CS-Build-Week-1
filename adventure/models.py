@@ -46,7 +46,7 @@ class Room(models.Model):
         output += f'e_to: {self.e_to}\n'
         output += f'w_to: {self.w_to}\n'
         output += f'-- END ROOM PRINT --\n'
-        output += f'\n'
+        output += f'\n'    
 
 
 class Player(models.Model):
@@ -55,6 +55,9 @@ class Player(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     def initialize(self):
         if self.currentRoom == 0:
+            # ERROR: 
+            ## AttributeError: 'NoneType' object has no attribute 'id'
+            ## -> Room.objects.first() === NoneType
             self.currentRoom = Room.objects.first().id
             self.save()
     def room(self):

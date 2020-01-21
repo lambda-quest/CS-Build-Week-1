@@ -19,7 +19,9 @@ def initialize(request):
     player = user.player
     print(f'PLAYER: {player}')
     player_id = player.id
+    print(f'player_ID {player_id}')
     uuid = player.uuid
+    print(f'UUID {uuid}')
 
     # ERROR
     room = player.room()
