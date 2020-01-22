@@ -1,8 +1,14 @@
+# MODELS
 from django.db import models
 from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
+
+# SIGNALS
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
+
+# External FUNCTION
 import uuid
 
 class Room(models.Model):
@@ -48,18 +54,24 @@ class Room(models.Model):
         output += f'-- END ROOM PRINT --\n'
         output += f'\n'    
 
-
 class Player(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     currentRoom = models.IntegerField(default=0)
     uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     def initialize(self):
         if self.currentRoom == 0:
+
             # ERROR: 
             ## AttributeError: 'NoneType' object has no attribute 'id'
             ## -> Room.objects.first() === NoneType
+
+            # Genreate A Map
+            # Make Initial Room
+
+            # Assign that that room to Player's current room
             self.currentRoom = Room.objects.first().id
             self.save()
+    
     def room(self):
         try:
             return Room.objects.get(id=self.currentRoom)

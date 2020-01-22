@@ -14,6 +14,10 @@ import json
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
+
+
+
+
     user = request.user
     print(f'USER: {user}')
     player = user.player
