@@ -1,7 +1,9 @@
 # IMPORTS
 # from adventure.models import Player, Room
 
-#PASTA 
+# PASTA
+
+
 class Room:
     # def __init__(self, id, title, description, x, y):
     def __init__(self, id, title, description):
@@ -15,57 +17,50 @@ class Room:
         # self.x = x
         # self.y = y
 
-Class World: 
-    pass
 
-# Notes:
-# World = 2d Array
-    # know the fixed size of world => 10 x 10
+class World:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
 
-# Iterate through world 
-    # for each empty room assign index
-
-# In memory 2d array 
-
-
-
-# Steos:
-# 1 - Create Chess Board
-def createWorld(x, y):
-    world = [None] * y
-
-    for i in range( len(world) ):
-        world[i] = [None] * x
-
-    # print(world)
-    return world
-
-def create_realRoom(num):
-    room = Room(
-        title=f'Room Num:{num}', description="Generic", id=num
-    )
-    return room
-
-def populate_world():
-    created_world = createWorld(10,10)
-    counter = 0
-
-    for row in created_world:
-        for column in row:
-            print(f'PRE: {column}')
-            # column = create_realRoom(counter)
-            column = 'TACO JOHNSON'
-            print(f'POST: {column}')
-            # print(column.id)
-            
-            counter += 1
-    return created_world
+    def generate_empty_world(self):
+        world = [None] * self.y
+        for i in range(len(world)):
+            world[i] = [None] * self.x
+        counter = 0
+        for row in world:
+            for i in range(len(row)):
+                row[i] = counter
+                counter += 1
+        return world
 
 
-FINAL_output = populate_world()
-print(FINAL_output)
+world_instance = World(10, 10)
+new_world = world_instance.generate_empty_world()
+print(new_world)
 
 
+# def create_realRoom(num):
+#     room = Room(
+#         title=f'Room Num:{num}', description="Generic", id=num
+#     )
+#     return room
+
+# def populate_world():
+#     created_world = createWorld(10,10)
+#     counter = 0
+
+#     for row in created_world:
+#         for column in row:
+#             print(f'PRE: {column}')
+#             # column = create_realRoom(counter)
+#             column = 'TACO JOHNSON'
+#             print(f'POST: {column}')
+#             # print(column.id)
+
+#             counter += 1
+#     return created_world
 
 
-
+# FINAL_output = populate_world()
+# print(FINAL_output)
