@@ -26,13 +26,9 @@ def createWorld(request):
     w.createBoard(10,10)
     w.populateWorld()
 
-    # Get New Rooms
-    # rooms = Room.objects.all()
-    # response = []
-    # for item in rooms:
-    #     item = model_to_dict(item)
-    #     response.append(item)
-
+    # Response
+    response = {"Status": 200}
+    return JsonResponse(response)
 
 @csrf_exempt
 @api_view(["GET"])
@@ -43,9 +39,6 @@ def getRooms(request):
     for item in rooms:
         item = model_to_dict(item)
         response.append(item)
-
-    
-            
 
     return JsonResponse(response, safe=False)
     # return Response(rooms)
@@ -65,10 +58,9 @@ def initialize(request):
     # ERROR
     room = player.room()
 
-    players = room.playerNames(player_id)
+    # players = room.playerNames(player_id)
     # return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'players':players}, safe=True)
-
 
 # @csrf_exempt
 @api_view(["POST"])
@@ -107,7 +99,6 @@ def move(request):
     else:
         players = room.playerNames(player_id)
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
-
 
 @csrf_exempt
 @api_view(["POST"])

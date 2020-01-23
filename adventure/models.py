@@ -16,16 +16,18 @@ class Room(models.Model):
     # title = models.CharField(max_length=50, default="DEFAULT TITLE")
     title = models.IntegerField(default=0)
     # description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
-    n_to = models.IntegerField(default=0)
-    s_to = models.IntegerField(default=0)
-    e_to = models.IntegerField(default=0)
-    w_to = models.IntegerField(default=0)
+    n_to = models.IntegerField(default=-1)
+    s_to = models.IntegerField(default=-1)
+    e_to = models.IntegerField(default=-1)
+    w_to = models.IntegerField(default=-1)
     x = models.IntegerField(default = -1)
     y = models.IntegerField(default = -1)
-    playerList = ArrayField(
-        models.CharField(max_length=10, blank=True),
-        size=8,
-    ),
+    
+    # NOT IN RUBRIC
+    # playerList = ArrayField(
+    #     models.CharField(max_length=10, blank=True),
+    #     size=8,
+    # ),
 
     # METHODS
     def connectRooms(self, destinationRoom, direction):
@@ -47,6 +49,8 @@ class Room(models.Model):
                 print("Invalid direction")
                 return
             self.save()
+
+    # NOT IN RUBRIC 
     def playerNames(self, currentPlayerID):
         return [p.user.username for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
     def playerUUIDs(self, currentPlayerID):
@@ -70,27 +74,16 @@ class Player(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     def initialize(self):
         if self.currentRoom == 0:
-
-            # ERROR: 
-            ## AttributeError: 'NoneType' object has no attribute 'id'
-            ## -> Room.objects.first() === NoneType
-
-            # Genreate A Map
-            # Make Initial Room
-
-            # Assign that that room to Player's current room
             self.currentRoom = Room.objects.first().id
             self.save()
 
-
-
-    
     def room(self):
         try:
             return Room.objects.get(id=self.currentRoom)
         except Room.DoesNotExist:
             self.initialize()
             return self.room()
+            
     def __str__(self):
         output = f'\n'
         output += f'-- START PLAYER PRINT --\n'
