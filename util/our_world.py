@@ -76,21 +76,20 @@ class World:
         world = [None] * self.y
         for i in range(len(world)):
             world[i] = [None] * self.x
-        counter = 0
         for row in world:
-            for column in range(len(row)):
-                row[column] = Room(row, column)
-                counter += 1
+            for i in range(len(row)):
+                row[i] = Room(row, column)
         return world
 
 
 world_instance = World(10, 10)
 new_world = world_instance.generate_world()
-ronny = Player(new_world)
+print(new_world)
+# ronny = Player(new_world)
 
-while(True):
-    print("Enter a movement: ")
-    x = input()
-    ronny.move_player(x)
-    print(
-        f'You are currently at [{ronny.current_room.x, ronny.current_room.y}]')
+# while(True):
+#     print("Enter a movement: ")
+#     x = input()
+#     ronny.move_player(x)
+#     print(
+#         f'You are currently at [{ronny.current_room.x, ronny.current_room.y}]')
