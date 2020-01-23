@@ -119,10 +119,13 @@ class World:
         # # print(output)
         # return output
 
-     
-w = World()
-w.createBoard(10,10)
-w.populateWorld()
+
+
+
+# Room.objects.all().delete()
+# w = World()
+# w.createBoard(10,10)
+# w.populateWorld()
 
 # THIS PRINTS UPSIDOWN!!
 # print(w.printWorld())

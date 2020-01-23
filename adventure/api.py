@@ -8,6 +8,8 @@ from .models import *
 from rest_framework.decorators import api_view
 import json
 from util.our_world import World 
+from django.forms.models import model_to_dict
+
 
 # instantiate pusher
 # pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
@@ -21,6 +23,23 @@ def createWorld(request):
     w.populateWorld()
 
     # WHAT ARE WE RETURNING HERE
+
+
+@csrf_exempt
+@api_view(["GET"])
+def getRooms(request):
+    rooms = Room.objects.all()
+
+    response = []
+    for item in rooms:
+        item = model_to_dict(item)
+        response.append(item)
+
+    
+            
+
+    return JsonResponse(response, safe=False)
+    # return Response(rooms)
 
 @csrf_exempt
 @api_view(["GET"])
