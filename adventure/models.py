@@ -1,5 +1,6 @@
 # MODELS
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 
@@ -13,11 +14,19 @@ import uuid
 
 class Room(models.Model):
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
-    description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
+    # description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
     n_to = models.IntegerField(default=0)
     s_to = models.IntegerField(default=0)
     e_to = models.IntegerField(default=0)
     w_to = models.IntegerField(default=0)
+    x = models.IntegerField(default = -1)
+    y = models.IntegerField(default = -1)
+    playerList = ArrayField(
+            models.CharField(max_length=10, blank=True),
+            size=8,
+        ),
+
+    # METHODS
     def connectRooms(self, destinationRoom, direction):
         destinationRoomID = destinationRoom.id
         try:
@@ -71,6 +80,9 @@ class Player(models.Model):
             # Assign that that room to Player's current room
             self.currentRoom = Room.objects.first().id
             self.save()
+
+
+
     
     def room(self):
         try:

@@ -1,71 +1,131 @@
-# IMPORTS
-# from adventure.models import Player, Room
+from adventure.models import Room
 
-#PASTA 
-class Room:
-    # def __init__(self, id, title, description, x, y):
-    def __init__(self, id, title, description):
-        self.id = id
-        self.title = title
-        self.description = description
-        # self.n_to = None
-        # self.s_to = None
-        # self.e_to = None
-        # self.w_to = None
-        # self.x = x
-        # self.y = y
+# class Room:
+#     def __init__(self, id, title, x, y):
+#         self.id = id
+#         self.title = title
+#         # -- #
+#         self.x = x
+#         self.y = y
+#         # -- #
+#         self.n_to = None
+#         self.s_to = None
+#         self.e_to = None
+#         self.w_to = None
+#         # -- #
+#         # self.playerList = []
 
-Class World: 
-    pass
+#     def availableMoves(self, world):
+#         moves = {
+#             "n_to": True,
+#             "s_to": True,
+#             "e_to": True,
+#             "w_to": True
+#         }
 
-# Notes:
-# World = 2d Array
-    # know the fixed size of world => 10 x 10
+#         # Check Y
+#         if self.y + 1 >= world.height:
+#             moves["n_to"] = False
+#         if self.y - 1 < 0:
+#             moves["s_to"] = False
 
-# Iterate through world 
-    # for each empty room assign index
+#         # Check X
+#         if self.x + 1 >= world.width:
+#             moves["e_to"] = False
+#         if self.x - 1 < 0:
+#             moves["w_to"] = False
 
-# In memory 2d array 
+#         return moves
 
+#     def __str__(self):
+#         output = f'id: {self.id} \n'
+#         output += f'title: {self.title} \n'
+#         output += f'(X, Y) = ({self.x}, {self.y})'
 
+#         return output
 
-# Steos:
-# 1 - Create Chess Board
-def createWorld(x, y):
-    world = [None] * y
+class World: 
+    def __init__(self, width=0, height=0):
+        self.width = width
+        self.height = height
 
-    for i in range( len(world) ):
-        world[i] = [None] * x
+    def createBoard(self, new_width, new_height):
+        # Reset Height * Width
+        self.width = new_width
+        self.height = new_height
 
-    # print(world)
-    return world
+        # Create Empty Board
+        board = [None] * new_height
+        for row in range( len(board) ):
+            board[row] = [None] * new_width
+        
+        # Save Board to the World's Data attribute
+        self.data = board
 
-def create_realRoom(num):
-    room = Room(
-        title=f'Room Num:{num}', description="Generic", id=num
-    )
-    return room
+    def configureRoom(self):
+        pass
 
-def populate_world():
-    created_world = createWorld(10,10)
-    counter = 0
+    def generateRoom(self, title, x, y):
+        room = Room(title=title, x=x, y=y)
+        room.save()
+        
+        # print(room)
+        # return room
 
-    for row in created_world:
-        for column in row:
-            print(f'PRE: {column}')
-            # column = create_realRoom(counter)
-            column = 'TACO JOHNSON'
-            print(f'POST: {column}')
-            # print(column.id)
-            
-            counter += 1
-    return created_world
+    def populateWorld(self):
+        roomCounter = 0
+        x_counter = 0
+        y_counter = 0
 
+        for row_index in range( self.width ):
+            for column_index in range( self.height ):
+                # Data Check
+                # print(f'PRE: {self.data[row_index][column_index]}')
 
-FINAL_output = populate_world()
-print(FINAL_output)
+                # Dynamically configure rooms
+                    # Pro / Con Event
+                    # Plan Connections?
 
+                # Make Room
+                # newRoom = self.generateRoom(roomCounter, 'newRoom', x_counter, y_counter)
+                # newRoom = self.generateRoom(roomCounter, x_counter, y_counter)
+                self.generateRoom(roomCounter, x_counter, y_counter)
+                
+                # Save Room
+                # self.data[row_index][column_index] = newRoom
 
+                # Data Check
+                # print(f'POST: {self.data[row_index][column_index]}')
 
+                # Increment Counters
+                roomCounter += 1
+                if x_counter >= self.width - 1:
+                    x_counter = 0
+                    y_counter += 1
+                else:
+                    x_counter += 1
+                    
+    # def __str__(self):
+    def printWorld(self):
+        pass
+        # output = f''
+        # for row in range( len(self.data) ):
+        #     output += f'['
+        #     for data in self.data[row]:
+        #         # print(f'DATA: {data}')
+        #         # output += f'{data.id}@({data.x},{data.y}) // '
+        #         output += f'({data.x},{data.y}) // '
+        #     output += f']\n'
+        # # print(output)
+        # return output
 
+     
+w = World()
+w.createBoard(10,10)
+w.populateWorld()
 
+# THIS PRINTS UPSIDOWN!!
+# print(w.printWorld())
+
+# print(w.data[0][0].availableMoves(w))
+# print(w.data[9][9].availableMoves(w))

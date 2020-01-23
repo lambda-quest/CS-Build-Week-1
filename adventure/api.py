@@ -7,17 +7,24 @@ from django.contrib.auth.models import User
 from .models import *
 from rest_framework.decorators import api_view
 import json
+from util.our_world import World 
 
 # instantiate pusher
 # pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
+
+@csrf_exempt
+@api_view(["GET"])
+def createWorld(request):
+    w = World()
+    w.createBoard(10,10)
+    w.populateWorld()
+
+    # WHAT ARE WE RETURNING HERE
+
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
-
-
-
-
     user = request.user
     print(f'USER: {user}')
     player = user.player
@@ -29,8 +36,10 @@ def initialize(request):
 
     # ERROR
     room = player.room()
+
     players = room.playerNames(player_id)
-    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
+    # return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
+    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'players':players}, safe=True)
 
 
 # @csrf_exempt
