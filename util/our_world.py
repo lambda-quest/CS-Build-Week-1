@@ -121,11 +121,11 @@ class World:
 
 
 
-if len(Room.objects.all()) == 0: 
-#     # Room.objects.all().delete()
-    w = World()
-    w.createBoard(10,10)
-    w.populateWorld()
+# if len(Room.objects.all()) == 0: 
+# #     # Room.objects.all().delete()
+#     w = World()
+#     w.createBoard(10,10)
+#     w.populateWorld()
 
 # THIS PRINTS UPSIDOWN!!
 # print(w.printWorld())
