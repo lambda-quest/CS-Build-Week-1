@@ -13,7 +13,8 @@ from rest_framework.authtoken.models import Token
 import uuid
 
 class Room(models.Model):
-    title = models.CharField(max_length=50, default="DEFAULT TITLE")
+    # title = models.CharField(max_length=50, default="DEFAULT TITLE")
+    title = models.IntegerField(default=0)
     # description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
     n_to = models.IntegerField(default=0)
     s_to = models.IntegerField(default=0)

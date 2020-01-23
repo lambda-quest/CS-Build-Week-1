@@ -65,6 +65,45 @@ class World:
     def configureRoom(self):
         pass
 
+    def connectRooms(self, rooms):
+        for room in rooms: 
+            # print(f'{room.x}, {room.y}')
+            # print(f'{room.title}, {room.id}')
+
+            # Connect to West
+            if room.x - 1 >= 0:
+                room.w_to = room.id - 1
+            # Connect to East
+            if room.x + 1 <= self.width:
+                room.e_to = room.id + 1
+
+            # Connect to South
+            if room.y - 1 >= 0:
+                room.s_to = room.id - self.height
+            # Connect to North
+            if room.y + 1 <= self.height:  
+                room.n_to = room.id + self.height
+
+            room.save()
+
+            # # Connect to East
+            # print(room.x < self.width)
+            # print(room.y % 2 == 0)
+            # # print(room.title)
+            # if room.x < self.width and room.y % 2 == 0:
+            #     print(f'{room.title} connects to {room.title + 1}') 
+                
+        
+            # # Connect North
+            # if room.x == self.width:
+            #     print('north')
+
+            # # Connect West
+            # if room.x < self.width and room.y % 2 == 1:
+            #     print('west')
+            
+
+
     def generateRoom(self, title, x, y):
         room = Room(title=title, x=x, y=y)
         room.save()
@@ -104,7 +143,11 @@ class World:
                     y_counter += 1
                 else:
                     x_counter += 1
-                    
+
+        # Connect Rooms...
+        allRooms = Room.objects.all()
+        self.connectRooms(allRooms)
+
     # def __str__(self):
     def printWorld(self):
         pass

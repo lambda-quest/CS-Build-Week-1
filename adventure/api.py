@@ -18,11 +18,20 @@ from django.forms.models import model_to_dict
 @csrf_exempt
 @api_view(["GET"])
 def createWorld(request):
+    # Delete Current Rooms
+    Room.objects.all().delete()
+
+    # Make World
     w = World()
     w.createBoard(10,10)
     w.populateWorld()
 
-#     # WHAT ARE WE RETURNING HERE
+    # Get New Rooms
+    # rooms = Room.objects.all()
+    # response = []
+    # for item in rooms:
+    #     item = model_to_dict(item)
+    #     response.append(item)
 
 
 @csrf_exempt
