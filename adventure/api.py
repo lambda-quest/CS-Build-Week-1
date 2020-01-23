@@ -15,14 +15,14 @@ from django.forms.models import model_to_dict
 # pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
 
-@csrf_exempt
-@api_view(["GET"])
-def createWorld(request):
-    w = World()
-    w.createBoard(10,10)
-    w.populateWorld()
+# @csrf_exempt
+# @api_view(["GET"])
+# def createWorld(request):
+#     w = World()
+#     w.createBoard(10,10)
+#     w.populateWorld()
 
-    # WHAT ARE WE RETURNING HERE
+#     # WHAT ARE WE RETURNING HERE
 
 
 @csrf_exempt

@@ -22,9 +22,9 @@ class Room(models.Model):
     x = models.IntegerField(default = -1)
     y = models.IntegerField(default = -1)
     playerList = ArrayField(
-            models.CharField(max_length=10, blank=True),
-            size=8,
-        ),
+        models.CharField(max_length=10, blank=True),
+        size=8,
+    ),
 
     # METHODS
     def connectRooms(self, destinationRoom, direction):
