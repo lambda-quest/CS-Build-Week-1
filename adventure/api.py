@@ -124,13 +124,16 @@ class Move(APIView):
     def post(self, request):
         print(f'Req.Body: {request.body}')
 
-        dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
-        reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
-        player = request.user.player
-        player_id = player.id
-        player_uuid = player.uuid
+        # dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
+        # reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
+        
+        # player = request.user.player
+        # player_id = player.id
+        # player_uuid = player.uuid
+
         data = json.loads(request.body)
         direction = data['direction']
+
         room = player.room()
         nextRoomID = None
         if direction == "n":
@@ -141,21 +144,34 @@ class Move(APIView):
             nextRoomID = room.e_to
         elif direction == "w":
             nextRoomID = room.w_to
+
+        print(f'NEXT ROOM: {nextRoomID}')
+
         if nextRoomID is not None and nextRoomID > 0:
             nextRoom = Room.objects.get(id=nextRoomID)
             player.currentRoom=nextRoomID
             player.save()
-            players = nextRoom.playerNames(player_id)
-            currentPlayerUUIDs = room.playerUUIDs(player_id)
-            nextPlayerUUIDs = nextRoom.playerUUIDs(player_id)
+            
+            # players = nextRoom.playerNames(player_id)
+            # currentPlayerUUIDs = room.playerUUIDs(player_id)
+            # nextPlayerUUIDs = nextRoom.playerUUIDs(player_id)
+
             # for p_uuid in currentPlayerUUIDs:
             #     pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has walked {dirs[direction]}.'})
             # for p_uuid in nextPlayerUUIDs:
             #     pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
-            return JsonResponse({'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
+            # return JsonResponse({'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
+            
+            # return JsonResponse({'name':player.user.username, 'nextRoomID': player.user.currentRoom 'error_msg':""}, safe=True)
+            
+            
+            # return JsonResponse({'name':player.username, 'nextRoomID': player.currentRoom, 'error_msg':""}, safe=True)
+            # Response
+            response = {"Message": "AWAY WE GO"}
+            return JsonResponse(response)
         else:
-            players = room.playerNames(player_id)
-            return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
+            # players = room.playerNames(player_id)
+            return JsonResponse({'name':player.user.username, 'error_msg':"You cannot move that way."}, safe=True)
 
 # @csrf_exempt
 # @api_view(["POST"])
@@ -195,12 +211,52 @@ class Move(APIView):
     #     players = room.playerNames(player_id)
     #     return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
 
+
+class GetPlayers(APIView):
+    permission_classes = (IsAuthenticated,)
+    
+    def get(self,request):
+        players = Player.objects.all()
+
+        response = []
+        for item in players:
+            item = model_to_dict(item)
+            response.append(item)
+
+        return JsonResponse(response, safe=False)
+        # return Response(rooms)
+
+
+class GetPlayer_by_ID(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self,request):
+        player = request.user.player
+        print(player)
+
+        player = Player.objects.get( id=player.id )
+
+        response = model_to_dict(player)
+
+        return JsonResponse(response)
+
+
+
+
+
+
+
+
+
+
+
+
+
 class Say(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self,request):
         return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
-
 
 # @csrf_exempt
 # @api_view(["POST"])
