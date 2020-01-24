@@ -28,7 +28,6 @@ DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,22 +37,27 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
     'adventure',
     'api',
-    'corsheaders',
+
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
-    'django.contrib.sites',
+    'rest_auth.registration',
+
     'allauth',
     'allauth.account',
-    'rest_auth.registration',
+
+    'corsheaders',
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SITE_ID = 1
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -61,7 +65,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
 
@@ -85,11 +88,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'adv_project.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
+<<<<<<< HEAD
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'lambdaquest',
@@ -98,8 +101,17 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '5432'
     }
+=======
+	'default': {
+		'ENGINE': 'django.db.backends.postgresql', 
+		'NAME': 'lambdaquest',    # postgres DB name
+		'USER': 'postgres',              # ^^ owner
+		'PASSWORD': 'postgres',          # ^^'s password
+		'HOST': 'localhost',
+		'PORT': '5432',
+	}
+>>>>>>> e502bd3260fc90b3e1fe9823154527611083423d
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -147,16 +159,19 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
 
 import django_heroku
+<<<<<<< HEAD
 django_heroku.settings(locals())
 
 # python manage.py runserver
 # python manage.py showmigrations
 # python manage.py makemigrations
 
+=======
+django_heroku.settings(locals())
+>>>>>>> e502bd3260fc90b3e1fe9823154527611083423d

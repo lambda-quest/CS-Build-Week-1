@@ -7,6 +7,9 @@ from django.contrib.auth.models import User
 from .models import *
 from rest_framework.decorators import api_view
 import json
+from util.our_world import World 
+from django.forms.models import model_to_dict
+
 
 from adventure.models import Player, Room
 from rest_framework import viewsets, permissions
@@ -26,22 +29,70 @@ class RoomViewSet(viewsets.ModelViewSet):
 # instantiate pusher
 # pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
+
+@csrf_exempt
+@api_view(["GET"])
+def createWorld(request):
+    # Delete Current Rooms
+    Room.objects.all().delete()
+
+    # Make World
+    w = World()
+    w.createBoard(10,10)
+    w.populateWorld()
+
+    # Response
+    response = {"Status": 200}
+    return JsonResponse(response)
+
+@csrf_exempt
+@api_view(["GET"])
+def getRooms(request):
+    rooms = Room.objects.all()
+
+    response = []
+    for item in rooms:
+        item = model_to_dict(item)
+        response.append(item)
+
+    return JsonResponse(response, safe=False)
+    # return Response(rooms)
+
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
     user = request.user
+    print(f'USER: {user}')
     player = user.player
+    print(f'PLAYER: {player}')
     player_id = player.id
+    print(f'player_ID {player_id}')
     uuid = player.uuid
+    print(f'UUID {uuid}')
+
+    # ERROR
     room = player.room()
+<<<<<<< HEAD
     players = room.playerNames(player_id)
     return JsonResponse({'uuid': uuid, 'name': player.user.username, 'title': room.title, 'description': room.description, 'players': players}, safe=True)
+=======
+>>>>>>> e502bd3260fc90b3e1fe9823154527611083423d
 
+    # players = room.playerNames(player_id)
+    # return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
+    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'id':room.id}, safe=True)
+    
 
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
+<<<<<<< HEAD
     dirs = {"n": "north", "s": "south", "e": "east", "w": "west"}
+=======
+    print(f'Req.Body: {request.body}')
+
+    dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
+>>>>>>> e502bd3260fc90b3e1fe9823154527611083423d
     reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
     player = request.user.player
     player_id = player.id
@@ -74,9 +125,12 @@ def move(request):
         players = room.playerNames(player_id)
         return JsonResponse({'name': player.user.username, 'title': room.title, 'description': room.description, 'players': players, 'error_msg': "You cannot move that way."}, safe=True)
 
-
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
     # IMPLEMENT
+<<<<<<< HEAD
     return JsonResponse({'error': "Not yet implemented"}, safe=True, status=500)
+=======
+    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+>>>>>>> e502bd3260fc90b3e1fe9823154527611083423d
