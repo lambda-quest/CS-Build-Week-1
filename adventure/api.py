@@ -93,6 +93,7 @@ class Initialize(APIView):
 
         # ERROR
         room = player.room()
+        print(f'UUID {uuid}')
 
         return JsonResponse({'uuid': uuid, 'name':player.user.username, 'id':room.id}, safe=True)
 
@@ -127,7 +128,7 @@ class Move(APIView):
         # dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
         # reverse_dirs = {"n": "south", "s": "north", "e": "west", "w": "east"}
         
-        # player = request.user.player
+        player = request.user.player
         # player_id = player.id
         # player_uuid = player.uuid
 
@@ -135,6 +136,7 @@ class Move(APIView):
         direction = data['direction']
 
         room = player.room()
+
         nextRoomID = None
         if direction == "n":
             nextRoomID = room.n_to
@@ -147,9 +149,12 @@ class Move(APIView):
 
         print(f'NEXT ROOM: {nextRoomID}')
 
+        print(nextRoomID is not None)
+        print(nextRoomID > 0)
         if nextRoomID is not None and nextRoomID > 0:
-            nextRoom = Room.objects.get(id=nextRoomID)
-            player.currentRoom=nextRoomID
+            nextRoom = Room.objects.get( id = nextRoomID )
+
+            player.currentRoom = nextRoomID
             player.save()
             
             # players = nextRoom.playerNames(player_id)
